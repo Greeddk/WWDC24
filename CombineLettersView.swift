@@ -44,8 +44,8 @@ struct CombineLettersView: View {
                         .frame(alignment: .bottom)
                     }
                     Spacer()
-                    VStack(spacing: -20) {
-                        HStack(spacing: -20) {
+                    VStack(spacing: -40) {
+                        HStack(spacing: -40) {
                             Image(viewModel.inputFirst.value)
                             Image(viewModel.inputSecond.value)
                         }

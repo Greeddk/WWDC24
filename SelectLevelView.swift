@@ -25,9 +25,9 @@ struct SelectLevelView: View {
             }
             .padding()
         }
-        //        .fullScreenCover(isPresented: $showOnboarding, content: {
-        //            WalkThroughView(showOnboarding: $showOnboarding)
-        //        })
+        .fullScreenCover(isPresented: $showOnboarding, content: {
+            WalkThroughView(showOnboarding: $showOnboarding)
+        })
     }
     
 }
@@ -37,25 +37,32 @@ struct WalkThroughView: View {
     var body: some View {
         TabView() {
             OnboardView(
-                systemImageName: "🎾", title: "Welcome", description: "Get an in-depth look at Tennis Racket",
+                systemImageName: "mainImage", title: "Welcome", description: "Would you like to learn more about Hangeul?",
                 showsDismissButton: false,
                 showOnboarding: $showOnboarding, goToSettingPage: false
                 
             )
+            
             OnboardView(
-                systemImageName: "platter.2.filled.ipad.landscape", title: "Landscape", description: "Korean words consist of an initial consonant and a vowel or sometimes a consonant placed under a vowel.",
+                systemImageName: "collection", title: "Letters", description: "Korean words consist of an initial consonant and a vowel or sometimes a consonant placed under a vowel.",
+                showsDismissButton: false,
+                showOnboarding: $showOnboarding, goToSettingPage: false
+            )
+            
+            OnboardView(
+                systemImageName: "question", title: "How many...?", description: "The number of all letters in Hangeul is 11,172. Of course, there are many letters that are not used. The most frequently used letters are said to be 2,350.",
+                showsDismissButton: false,
+                showOnboarding: $showOnboarding, goToSettingPage: false
+            )
+            
+            OnboardView(
+                systemImageName: "pencil", title: "Please add Korean Keyboard", description: "In order to learn Korean with this app, you need to use Apple Pencil to write Korean. To do so, please add Korean on keyboard to General in Settings.",
                 showsDismissButton: false,
                 showOnboarding: $showOnboarding, goToSettingPage: true
             )
             
             OnboardView(
-                systemImageName: "racket", title: "Wow 😮", description: "A tennis racket has quite a few detailed characteristics.",
-                showsDismissButton: false,
-                showOnboarding: $showOnboarding, goToSettingPage: false
-            )
-            
-            OnboardView(
-                systemImageName: "sidebar.left", title: "Let's take a quick look at!", description: "Open the left sidebar and choose!",
+                systemImageName: "level", title: "Let's select your level!", description: "Depending on your level, you can learn basic Korean consonants, vowels, and even dictate words.!",
                 showsDismissButton: true,
                 showOnboarding: $showOnboarding, goToSettingPage: false
             )
@@ -76,21 +83,25 @@ struct OnboardView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemImageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 180)
+            if systemImageName == "collection" {
+                Image(systemImageName)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Image(systemImageName)
+            }
             Text(title)
                 .font(.title)
                 .bold()
             Text(description)
+                .font(.system(size: 20))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
             if goToSettingPage {
                 Button {
-//                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    //                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                     guard let url = NSURL(string:"App-prefs:root=General&path=Keyboard") as? URL else { return }
-
+                    
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     }

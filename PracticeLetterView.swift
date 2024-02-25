@@ -49,6 +49,9 @@ struct PracticeLetterView: View {
                     VStack {
                         let text = pickedType == 0 ? resultConsonant : resultVowel
                         Image(text)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 250)
                     }
                     Spacer()
                     VStack {
