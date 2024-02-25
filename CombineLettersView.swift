@@ -24,11 +24,11 @@ struct CombineLettersView: View {
         NavigationStack {
             VStack {
                 HStack {
-                    Spacer().frame(width: 80)
+                    Spacer()
                     VStack {
                         Text(self.resultLetter)
-                            .font(.system(size: 110, weight: .bold))
-                            .frame(height: 110)
+                            .font(.system(size: 150, weight: .bold))
+                            .frame(height: 150)
                         
                         HStack {
                             Text("[ \(resultLetter.applyingTransform(.toLatin, reverse: false) ?? "") ]")
@@ -42,17 +42,23 @@ struct CombineLettersView: View {
                         }
                         .frame(height: 50)
                         .frame(alignment: .bottom)
-                        .border(.black)
                     }
-                    .border(.black)
+                    Spacer()
+                    VStack(spacing: -20) {
+                        HStack(spacing: -20) {
+                            Image(viewModel.inputFirst.value)
+                            Image(viewModel.inputSecond.value)
+                        }
+                        Image(viewModel.inputThird.value)
+                    }
                     Spacer()
                     VStack {
                         Text("Writing Box")
                             .font(.headline)
                         //UIKit으로 커스텀 필요
                         TextField("", text: $answer)
-                            .font(.system(size: 200))
-                            .frame(width: 200, height: 200)
+                            .font(.system(size: 250))
+                            .frame(width: 250, height: 250)
                             .border(.blue, width: 5)
                             .onChange(of: answer) { _ in
                                 //TextField가 변했을 때 원하는 이벤트 작성 구간
@@ -67,9 +73,9 @@ struct CombineLettersView: View {
                                 }
                             }
                     }
-                    Spacer().frame(width: 80)
+                    Spacer()
                 }
-                .frame(height: UIScreen.main.bounds.height / 4)
+                .frame(height: 300)
                 .alert(isPresented: $showing) {
                     let defaultButton = Alert.Button.default(Text("OK")) {
                         showing = false
@@ -141,4 +147,8 @@ struct CombineLettersView: View {
         }
     }
     
+}
+
+#Preview {
+    CombineLettersView()
 }

@@ -17,6 +17,7 @@ extension View {
                         .font(.system(size: 120))
                         .foregroundColor(.white)
                     Text(description)
+                        .frame(width: UIScreen.main.bounds.width * 2 / 3)
                         .font(.system(size: 30))
                         .foregroundColor(.white)
                 }

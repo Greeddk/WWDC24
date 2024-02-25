@@ -24,7 +24,6 @@ struct SelectLevelView: View {
                 }
             }
             .padding()
-            //            .navigationTitle(" g")
         }
         //        .fullScreenCover(isPresented: $showOnboarding, content: {
         //            WalkThroughView(showOnboarding: $showOnboarding)
@@ -40,25 +39,25 @@ struct WalkThroughView: View {
             OnboardView(
                 systemImageName: "🎾", title: "Welcome", description: "Get an in-depth look at Tennis Racket",
                 showsDismissButton: false,
-                showOnboarding: $showOnboarding
+                showOnboarding: $showOnboarding, goToSettingPage: false
                 
             )
             OnboardView(
                 systemImageName: "platter.2.filled.ipad.landscape", title: "Landscape", description: "Korean words consist of an initial consonant and a vowel or sometimes a consonant placed under a vowel.",
                 showsDismissButton: false,
-                showOnboarding: $showOnboarding
+                showOnboarding: $showOnboarding, goToSettingPage: true
             )
             
             OnboardView(
                 systemImageName: "racket", title: "Wow 😮", description: "A tennis racket has quite a few detailed characteristics.",
                 showsDismissButton: false,
-                showOnboarding: $showOnboarding
+                showOnboarding: $showOnboarding, goToSettingPage: false
             )
             
             OnboardView(
                 systemImageName: "sidebar.left", title: "Let's take a quick look at!", description: "Open the left sidebar and choose!",
                 showsDismissButton: true,
-                showOnboarding: $showOnboarding
+                showOnboarding: $showOnboarding, goToSettingPage: false
             )
         }
         .tabViewStyle(.page(indexDisplayMode: .always))
@@ -73,6 +72,7 @@ struct OnboardView: View {
     let description: String
     let showsDismissButton: Bool
     @Binding var showOnboarding: Bool
+    var goToSettingPage: Bool
     
     var body: some View {
         VStack(spacing: 20) {
@@ -86,6 +86,23 @@ struct OnboardView: View {
             Text(description)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
+            if goToSettingPage {
+                Button {
+//                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    guard let url = NSURL(string:"App-prefs:root=General&path=Keyboard") as? URL else { return }
+
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                } label: {
+                    Text("Go to Setting")
+                        .bold()
+                        .foregroundColor(.white)
+                        .frame(width: 200, height: 50)
+                        .background(.green)
+                        .cornerRadius(6)
+                }
+            }
             if showsDismissButton {
                 Button {
                     showOnboarding.toggle()
