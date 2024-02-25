@@ -16,7 +16,7 @@ struct CombineLettersView: View {
 
     @State var answer = ""
     @State var pickedType = 0
-    @State var resultLetter = "감"
+    @State var resultLetter = "가"
     @State var showing = false
     @State var isCorrect = false
     
@@ -29,6 +29,9 @@ struct CombineLettersView: View {
                         Text(self.resultLetter)
                             .font(.system(size: 150, weight: .bold))
                             .frame(height: 150)
+                            .onAppear {
+                                resultLetter = "가"
+                            }
                         
                         HStack {
                             Text("[ \(resultLetter.applyingTransform(.toLatin, reverse: false) ?? "") ]")
@@ -55,13 +58,11 @@ struct CombineLettersView: View {
                     VStack {
                         Text("Writing Box")
                             .font(.headline)
-                        //UIKit으로 커스텀 필요
                         TextField("", text: $answer)
                             .font(.system(size: 250))
                             .frame(width: 250, height: 250)
                             .border(.blue, width: 5)
                             .onChange(of: answer) { _ in
-                                //TextField가 변했을 때 원하는 이벤트 작성 구간
                                 if resultLetter == answer {
                                     print("정답")
                                     isCorrect = true
@@ -90,10 +91,11 @@ struct CombineLettersView: View {
                     Text("middle vowel").tag(1)
                     Text("last consonant").tag(2)
                 }
-                .frame(width: 800)
                 .pickerStyle(.segmented)
-                
-                
+                .onChange(of: pickedType ) { _ in
+                    print(pickedType)
+                }
+
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         switch pickedType {
@@ -123,7 +125,7 @@ struct CombineLettersView: View {
                             }
                         
                         case 2:
-                            ForEach(viewModel.jong, id: \.self) { value in
+                            ForEach(viewModel.jong.filter { $0 != "" }, id: \.self) { value in
                                 LetterCardView(letter: value)
                                     .frame(width: 200, height: 200)
                                     .background(value == viewModel.inputThird.value ? .cyan : .white)
@@ -132,16 +134,13 @@ struct CombineLettersView: View {
                                     .onTapGesture {
                                         viewModel.inputThird.value = value
                                         resultLetter = self.viewModel.output.value
-                                        print(value, resultLetter)
                                     }
                             }
                         default:
                             Text("")
                         }
-                        
                     }
-                    
-                    
+
                 }
             }
         }

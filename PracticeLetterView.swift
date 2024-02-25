@@ -31,6 +31,10 @@ struct PracticeLetterView: View {
                         Text(text)
                             .font(.system(size: 150, weight: .bold))
                             .frame(height: 150)
+                            .onAppear(perform: {
+                                viewModel.inputConsonant.value = resultConsonant
+                                viewModel.inputVowel.value = resultVowel
+                            })
                         
                         HStack {
                             Text("[ \(text.applyingTransform(.toLatin, reverse: false) ?? "") ]")
@@ -90,7 +94,6 @@ struct PracticeLetterView: View {
                     Text("consonants").tag(0)
                     Text("vowels").tag(1)
                 }
-                .frame(width: 800)
                 .pickerStyle(.segmented)
                 
                 

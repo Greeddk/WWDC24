@@ -13,14 +13,15 @@ class CombineLettersViewModel {
 
     let jung:[String] = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ",
                             "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
-    let jong:[String] = [" ", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ",
-                            "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+//    let jong:[String] = [" ", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ",
+//                            "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+    let jong:[String] = [" ", "ㄱ", "ㄲ", "", "ㄴ", "", "", "ㄷ", "ㄹ", "", "", "", "", "", "", "", "ㅁ", "ㅂ", "", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
     
     var inputFirst = Observable("ㄱ")
     var inputSecond = Observable("ㅏ")
-    var inputThird = Observable("ㅁ")
+    var inputThird = Observable("")
     
-    var output = Observable("감")
+    var output = Observable("")
     
     init() {
         inputFirst.bind { value in
@@ -35,7 +36,7 @@ class CombineLettersViewModel {
         }
     }
     
-    private func hangle(c1:String,c2:String,c3:String) -> String {
+    func hangle(c1:String,c2:String,c3:String) -> String {
         var cho_i = 0
         var jung_i = 0
         var jong_i = 0
@@ -48,6 +49,7 @@ class CombineLettersViewModel {
         }
         
         for i in 0 ..< jong.count {
+            if jong[i] == "" { continue }
             if jong[i] == c3 { jong_i = i }
         }
         

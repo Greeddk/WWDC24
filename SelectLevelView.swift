@@ -56,13 +56,13 @@ struct WalkThroughView: View {
             )
             
             OnboardView(
-                systemImageName: "pencil", title: "Please add Korean Keyboard", description: "In order to learn Korean with this app, you need to use Apple Pencil to write Korean. To do so, please add Korean on keyboard to General in Settings.",
+                systemImageName: "pencil", title: "Please add Korean Keyboard", description: "In order to learn Korean with this app, you need to use Apple Pencil to write Korean using the Scribble feature. To do so, please add Korean on keyboard to General in Settings.",
                 showsDismissButton: false,
                 showOnboarding: $showOnboarding, goToSettingPage: true
             )
             
             OnboardView(
-                systemImageName: "level", title: "Let's select your level!", description: "Depending on your level, you can learn basic Korean consonants, vowels, and even dictate words.!",
+                systemImageName: "level", title: "Let's select your level!", description: "Depending on your level, you can learn basic Hangeul consonants, vowels, and even dictate words!",
                 showsDismissButton: true,
                 showOnboarding: $showOnboarding, goToSettingPage: false
             )
@@ -90,6 +90,7 @@ struct OnboardView: View {
             } else {
                 Image(systemImageName)
             }
+            Spacer().frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
             Text(title)
                 .font(.title)
                 .bold()
