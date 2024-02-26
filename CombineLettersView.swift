@@ -9,16 +9,22 @@ import SwiftUI
 
 struct CombineLettersView: View {
     
-    let viewModel = CombineLettersViewModel()
     let ttsManager = TTSManager.shared
     
+    let cho:[String] = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"]
+    let jung:[String] = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
+    let jong:[String] = ["empty", "ㄱ", "ㄲ", "no", "ㄴ", "no", "no", "ㄷ", "ㄹ", "no", "no", "no", "no", "no", "no", "no", "ㅁ", "ㅂ", "no", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+    
     let columns = [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)]
-
+    
     @State var answer = ""
     @State var pickedType = 0
-    @State var resultLetter = "가"
+    @State var resultLetter = ""
     @State var showing = false
     @State var isCorrect = false
+    @State var inputFirst = "ㅎ"
+    @State var inputSecond = "ㅏ"
+    @State var inputThird = "ㄴ"
     
     var body: some View {
         NavigationStack {
@@ -30,7 +36,7 @@ struct CombineLettersView: View {
                             .font(.system(size: 150, weight: .bold))
                             .frame(height: 150)
                             .onAppear {
-                                resultLetter = "가"
+                                resultLetter = hangle(c1: inputFirst, c2: inputSecond, c3: inputThird)
                             }
                         
                         HStack {
@@ -49,10 +55,10 @@ struct CombineLettersView: View {
                     Spacer()
                     VStack(spacing: -40) {
                         HStack(spacing: -40) {
-                            Image(viewModel.inputFirst.value)
-                            Image(viewModel.inputSecond.value)
+                            Image(inputFirst)
+                            Image(inputSecond)
                         }
-                        Image(viewModel.inputThird.value)
+                        Image(inputThird)
                     }
                     Spacer()
                     VStack {
@@ -86,66 +92,91 @@ struct CombineLettersView: View {
                     return Alert(title: Text(isCorrect ? "Good Job!" : "Try Again!") , message: Text(isCorrect ? "Let's practice other letter, too" : "You can do it! Write it again "), dismissButton: defaultButton)
                 }
                 
-                Picker("", selection: $pickedType) {
+                Picker("select", selection: $pickedType) {
                     Text("first consonant").tag(0)
                     Text("middle vowel").tag(1)
                     Text("last consonant").tag(2)
                 }
                 .pickerStyle(.segmented)
-                .onChange(of: pickedType ) { _ in
-                    print(pickedType)
-                }
-
                 ScrollView {
-                    LazyVGrid(columns: columns) {
-                        switch pickedType {
-                        case 0:
-                            ForEach(viewModel.cho, id: \.self) { value in
+                    if pickedType == 0 {
+                        LazyVGrid(columns: columns) {
+                            ForEach(cho, id: \.self) { value in
                                 LetterCardView(letter: value)
                                     .frame(width: 200, height: 200)
-                                    .background(value == viewModel.inputFirst.value ? .cyan : .white)
+                                    .background(value == inputFirst ? .cyan : .white)
                                     .cornerRadius(20)
                                     .modifier(CardModifier())
                                     .onTapGesture {
-                                        viewModel.inputFirst.value = value
-                                        resultLetter = self.viewModel.output.value
+                                        print(1)
+                                        inputFirst = value
+                                        resultLetter = hangle(c1: value, c2: inputSecond, c3: inputThird)
                                     }
                             }
-                        case 1:
-                            ForEach(viewModel.jung, id: \.self) { value in
+                        }
+                    } else if pickedType == 1 {
+                        LazyVGrid(columns: columns) {
+                            ForEach(jung, id: \.self) { value in
                                 LetterCardView(letter: value)
                                     .frame(width: 200, height: 200)
-                                    .background(value == viewModel.inputSecond.value ? .cyan : .white)
+                                    .background(value == inputSecond ? .cyan : .white)
                                     .cornerRadius(20)
                                     .modifier(CardModifier())
                                     .onTapGesture {
-                                        viewModel.inputSecond.value = value
-                                        resultLetter = self.viewModel.output.value
+                                        inputSecond = value
+                                        resultLetter = hangle(c1: inputFirst, c2: value, c3: inputThird)
                                     }
                             }
-                        
-                        case 2:
-                            ForEach(viewModel.jong.filter { $0 != "" }, id: \.self) { value in
+                        }
+                    } else {
+                        let list = jong.filter { $0 != "no"}
+                        LazyVGrid(columns: columns) {
+                            ForEach(list, id: \.self) { value in
                                 LetterCardView(letter: value)
                                     .frame(width: 200, height: 200)
-                                    .background(value == viewModel.inputThird.value ? .cyan : .white)
+                                    .background(inputThird == value ? .cyan : .white)
                                     .cornerRadius(20)
                                     .modifier(CardModifier())
                                     .onTapGesture {
-                                        viewModel.inputThird.value = value
-                                        resultLetter = self.viewModel.output.value
+                                        print(2)
+                                        inputThird = value
+                                        resultLetter = hangle(c1: inputFirst, c2: inputSecond, c3: value)
                                     }
                             }
-                        default:
-                            Text("")
                         }
                     }
-
+                    
                 }
             }
         }
     }
     
+}
+
+extension CombineLettersView {
+    func hangle(c1:String,c2:String,c3:String) -> String {
+        var cho_i = 0
+        var jung_i = 0
+        var jong_i = 0
+        for i in 0 ..< cho.count {
+            if cho[i] == c1 { cho_i = i }
+        }
+        
+        for i in 0 ..< jung.count {
+            if jung[i] == c2 { jung_i = i }
+        }
+        
+        for i in 0 ..< jong.count {
+            if jong[i] == c3 { jong_i = i }
+        }
+        
+        let uniValue:Int = (cho_i * 21 * 28) + (jung_i * 28) + (jong_i) + 0xAC00;
+        if let uni = Unicode.Scalar(uniValue) {
+            return String(uni)
+        }
+        
+        return "none"
+    }
 }
 
 #Preview {

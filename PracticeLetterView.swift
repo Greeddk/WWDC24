@@ -137,3 +137,13 @@ struct PracticeLetterView: View {
     }
     
 }
+
+struct InfoModalView: View {
+    var body: some View {
+        VStack {
+            Image("")
+            Text("You can click on the consonants and vowels to study how they sound and what the stroke order is like. You can also write the letters in the writing box using Apple pencil if you wanna check that you wrote them correctly. If you can't see the Korean characters as you write, try setting it up like the picture below!")
+            Image("")
+        }
+    }
+}

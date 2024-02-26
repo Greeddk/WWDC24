@@ -14,11 +14,11 @@ class PracticeLetterViewModel {
     let vowels:[String] = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ",
                             "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
     
-    let inputConsonant = Observable("ㄱ")
-    let inputVowel = Observable("ㅏ")
+    let inputConsonant = CustomObservable("ㄱ")
+    let inputVowel = CustomObservable("ㅏ")
     
-    let outputConsonant = Observable("ㄱ")
-    let outputVowel = Observable("ㅏ")
+    let outputConsonant = CustomObservable("ㄱ")
+    let outputVowel = CustomObservable("ㅏ")
     
     init() {
         inputConsonant.bind { value in

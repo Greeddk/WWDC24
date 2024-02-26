@@ -11,7 +11,7 @@ struct LetterCardView: View {
     var letter: String
     var body: some View {
         Text(letter)
-            .font(.system(size: 110, weight: .black))
+            .font(letter == "empty" ? .system(size: 30) : .system(size: 110, weight: .black))
     }
 }
 
