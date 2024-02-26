@@ -21,6 +21,7 @@ struct DictationView: View {
     @State var listIndex = 0
     @State var showHint = false
     @State var showAnswer = false
+    @State var showModal = false
     
     var body: some View {
         VStack {
@@ -134,6 +135,14 @@ struct DictationView: View {
             .tint(.blue)
             
         }
+        .sheet(isPresented: $showModal) {
+            DictationInfoModalView()
+        }
+        .toolbar {
+            Button("Help") {
+                showModal = true
+            }
+        }
 
     }
 }
@@ -169,6 +178,30 @@ extension DictationView {
     }
     
     
+}
+
+struct DictationInfoModalView: View {
+    @Environment(\.presentationMode) var presentation
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    presentation.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "x.circle")
+                }.frame(width: 50, height: 50)
+            }
+            Spacer()
+            Image("speaker")
+                .resizable()
+                .frame(width: 200, height: 100)
+            Spacer().frame(height: 20)
+            Text("First, press the sound button to listen the Korean word and write the answer. If you're not sure, hit the hint button to see how it's pronounced in English, then enter the correct answer and submit. If you really don't know, click the answer button to see the word and learn it! Try different combinations of consonants and vowels! You can also write the letters in the writing box using Apple pencil if you wanna check that you wrote them correctly. If you can't see the Korean characters as you write, try setting it up!")
+                .frame(width: UIScreen.main.bounds.width * 2 / 3 )
+            Spacer()
+        }
+    }
 }
 
 #Preview {

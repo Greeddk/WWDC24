@@ -56,7 +56,7 @@ struct WalkThroughView: View {
             )
             
             OnboardView(
-                systemImageName: "pencil", title: "Please add Korean Keyboard", description: "In order to learn Korean with this app, you need to use Apple Pencil to write Korean using the Scribble feature. To do so, please add Korean on keyboard to General in Settings.",
+                systemImageName: "setkeyboard", title: "Please add Korean Keyboard", description: "In order to learn Korean with this app, you need to use Apple Pencil to write Korean using the Scribble feature. To do so, please add Korean on keyboard to General in Settings.",
                 showsDismissButton: false,
                 showOnboarding: $showOnboarding, goToSettingPage: true
             )
@@ -83,7 +83,7 @@ struct OnboardView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            if systemImageName == "collection" {
+            if systemImageName == "collection" || systemImageName == "setkeyboard" {
                 Image(systemImageName)
                     .resizable()
                     .scaledToFit()

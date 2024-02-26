@@ -20,6 +20,7 @@ struct PracticeLetterView: View {
     @State var resultVowel = "ㅏ"
     @State var showing = false
     @State var isCorrect = false
+    @State var showModal = false
     
     var body: some View {
         NavigationStack {
@@ -133,17 +134,39 @@ struct PracticeLetterView: View {
                     
                 }
             }
+            .sheet(isPresented: self.$showModal) {
+                PracticeInfoModalView()
+            }
+            .toolbar {
+                Button("Help") {
+                    showModal = true
+                }
+            }
         }
     }
     
 }
 
-struct InfoModalView: View {
+struct PracticeInfoModalView: View {
+    @Environment(\.presentationMode) var presentation
     var body: some View {
         VStack {
-            Image("")
-            Text("You can click on the consonants and vowels to study how they sound and what the stroke order is like. You can also write the letters in the writing box using Apple pencil if you wanna check that you wrote them correctly. If you can't see the Korean characters as you write, try setting it up like the picture below!")
-            Image("")
+            HStack {
+                Spacer()
+                Button {
+                    presentation.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "x.circle")
+                }.frame(width: 50, height: 50)
+            }
+            Spacer()
+            Image("setlanguage")
+                .resizable()
+                .scaledToFit()
+            Spacer().frame(height: 20)
+            Text("You can click on the consonants and vowels to study how they sound and what the stroke order is like. You can also write the letters in the writing box using Apple pencil if you wanna check that you wrote them correctly. If you can't see the Korean characters as you write, try setting it up like the picture above!")
+                .frame(width: UIScreen.main.bounds.width * 2 / 3 )
+            Spacer()
         }
     }
 }

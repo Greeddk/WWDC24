@@ -25,6 +25,7 @@ struct CombineLettersView: View {
     @State var inputFirst = "ㅎ"
     @State var inputSecond = "ㅏ"
     @State var inputThird = "ㄴ"
+    @State var showModal = false
     
     var body: some View {
         NavigationStack {
@@ -148,6 +149,14 @@ struct CombineLettersView: View {
                     
                 }
             }
+            .sheet(isPresented: self.$showModal) {
+                CombineInfoModalView()
+            }
+            .toolbar {
+                Button("Help") {
+                    showModal = true
+                }
+            }
         }
     }
     
@@ -176,6 +185,30 @@ extension CombineLettersView {
         }
         
         return "none"
+    }
+}
+
+struct CombineInfoModalView: View {
+    @Environment(\.presentationMode) var presentation
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    presentation.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "x.circle")
+                }.frame(width: 50, height: 50)
+            }
+            Spacer()
+            Image("collection")
+                .resizable()
+                .scaledToFit()
+            Spacer().frame(height: 20)
+            Text("Korean words consist of an initial consonant and a vowel or sometimes a consonant placed under a vowel. You can click on the consonants and vowels to study how they sound and what the stroke order is like. You can also write the letters in the writing box using Apple pencil if you wanna check that you wrote them correctly. If you can't see the Korean characters as you write, try setting it up!")
+                .frame(width: UIScreen.main.bounds.width * 2 / 3 )
+            Spacer()
+        }
     }
 }
 
